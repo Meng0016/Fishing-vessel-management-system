@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mengship.mapper.UserMapper">
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+<!--            <if test="password != null">-->
+<!--                password = #{password}-->
+<!--            </if>-->
+            <if test="realname != null">
+                realname = #{realname},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="stmp != null">
+                stmp = #{stmp},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="port != null">
+                port = #{port}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="findAllUsers" resultType="com.mengship.entity.User">
+        select * from user
+    </select>
+    <select id="selectPages" resultType="com.mengship.entity.User">
+        select * from user limit #{pageNum},#{pageSize}
+    </select>
+    <select id="selectTotal" resultType="java.lang.Integer">
+        select count(*) from user
+    </select>
+</mapper>
