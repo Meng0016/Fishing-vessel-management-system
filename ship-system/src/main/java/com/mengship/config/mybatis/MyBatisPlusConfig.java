@@ -17,7 +17,7 @@ public class MyBatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
-        paginationInnerInterceptor.setOverflow(true);//溢出后从第1页开始
+//        paginationInnerInterceptor.setOverflow(true);//溢出后从第1页开始
         //指定数据库类型
         interceptor.addInnerInterceptor(paginationInnerInterceptor);
         return interceptor;

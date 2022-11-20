@@ -1,8 +1,8 @@
 package com.mengship.service.impl;
 
-import com.mengship.entity.User;
-import com.mengship.mapper.UserMapper;
-import com.mengship.service.IUserService;
+import com.mengship.entity.Ship;
+import com.mengship.mapper.ShipMapper;
+import com.mengship.service.IShipService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-11-18
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+public class ShipServiceImpl extends ServiceImpl<ShipMapper, Ship> implements IShipService {
 
 }

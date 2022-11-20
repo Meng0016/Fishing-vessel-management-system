@@ -1,8 +1,7 @@
 package com.mengship.mapper;
 
+import com.mengship.entity.Ship;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mengship.entity.User;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -12,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author meng
  * @since 2022-11-18
  */
-@Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface ShipMapper extends BaseMapper<Ship> {
 
 }
