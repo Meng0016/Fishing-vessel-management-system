@@ -1,5 +1,6 @@
 package com.mengship.service;
 
+import com.mengship.controller.dto.UserDto;
 import com.mengship.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    UserDto login(UserDto userDto); // 登录
+
+    User register(UserDto userDto);
 }

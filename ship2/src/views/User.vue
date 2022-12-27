@@ -6,8 +6,7 @@
     <el-input class="ml-5" style="width: 200px" placeholder="请输入真实姓名" suffix-icon="el-icon-s-check" v-model="realname"> </el-input>
     <el-button type="primary" style="margin-left: 10px" @click="load">搜索&nbsp;&nbsp;<i class="el-icon-search" /></el-button>
     <el-button type="warning" @click="reset" >重置&nbsp;&nbsp;<i class="el-icon-refresh-right" /></el-button>
-  </div>
-  <div style="margin: 10px 0">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
     <el-popconfirm
         class="ml-5"
@@ -20,25 +19,43 @@
     >
       <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
     </el-popconfirm>
-    <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
-    <el-button type="primary">导出 <i class="el-icon-top"></i></el-button>
+    <el-upload
+        action="http://localhost:9999/user/import"
+        style="display: inline-block"
+        class="mr-5"
+        :show-file-list="false"
+        accept="xlsx"
+        :on-success="importExcel">
+      <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
+    </el-upload>
+    <el-button type="primary" @click="exportExcel">导出 <i class="el-icon-top"></i></el-button>
   </div>
+
 
   <el-table :data="tableData" border stripe header-cell-class-name="headerBg" @selection-change="handleSelectionChange">
     <el-table-column type="selection" width="55"></el-table-column>
-    <el-table-column prop="id" label="ID" ></el-table-column>
-    <el-table-column prop="username" label="用户" ></el-table-column>
-    <el-table-column prop="realname" label="真实姓名" ></el-table-column>
-    <el-table-column prop="phone" label="电话"></el-table-column>
-    <el-table-column prop="email" label="邮箱"></el-table-column>
-    <el-table-column prop="status" label="使用状态"></el-table-column>
-    <el-table-column prop="access" label="通过状态"></el-table-column>
-    <el-table-column prop="loginCount" label="登录次数"></el-table-column>
-    <el-table-column prop="smtp" label="Smtp"></el-table-column>
+    <el-table-column prop="id" label="ID" width="50" ></el-table-column>
+    <el-table-column prop="username" label="用户" width="90" ></el-table-column>
+    <el-table-column prop="realname" label="真实姓名" width="90"></el-table-column>
+    <el-table-column prop="phone" label="电话" width="115" ></el-table-column>
+    <el-table-column prop="email" label="邮箱" width="170"></el-table-column>
+    <el-table-column  prop="status" label="使用状态" width="80">
+<!--      <el-switch-->
+<!--          disabled-->
+<!--          v-model="tableData.status"-->
+<!--          active-color="#13ce66"-->
+<!--          active-value= 1-->
+<!--          inactive-value= 0 >-->
+<!--      </el-switch>-->
+    </el-table-column>
+    <el-table-column prop="access" label="通过状态" width="80"></el-table-column>
+    <el-table-column prop="loginCount" label="登录次数" width="80"></el-table-column>
+    <el-table-column prop="dateCreated" label="注册日期" width="170" ></el-table-column>
+    <el-table-column prop="smtp" label="Smtp" ></el-table-column>
     <el-table-column prop="port" label="港口"></el-table-column>
 
 
-    <el-table-column label="操作"  width="250" align="center">
+    <el-table-column label="操作"  width="250" align="center" fixed="right">
       <template slot-scope="scope">
         <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
         <el-popconfirm
@@ -60,7 +77,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageNum"
-        :page-sizes="[2, 5, 15, 20]"
+        :page-sizes="[5, 10, 20]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -81,9 +98,15 @@
       <el-form-item label="邮箱" >
         <el-input v-model="form.email" autocomplete="off"></el-input>
       </el-form-item>
-      <!--            <el-form-item label="使用状态" >-->
-      <!--              <el-input v-model="form.status" autocomplete="off"></el-input>-->
-      <!--            </el-form-item>-->
+      <el-form-item label="使用状态" >
+        <el-input v-model="form.status" autocomplete="off"/>
+<!--        <el-switch-->
+<!--            v-model="form.status"-->
+<!--            active-color="#13ce66"-->
+<!--            active-value="1"-->
+<!--            inactive-value="0"-->
+<!--        />-->
+      </el-form-item>
       <!--            <el-form-item label="通过状态" >-->
       <!--              <el-input v-model="form.access" autocomplete="off"></el-input>-->
       <!--            </el-form-item>-->
@@ -114,7 +137,7 @@ export default {
       tableData: [],
       total: 0,
       pageNum: 1,
-      pageSize: 2,
+      pageSize: 10,
       username: '',
       realname: '',
       dialogFormVisible: false,
@@ -122,7 +145,8 @@ export default {
       form: {},
     }
   },
-  methods:{load(){
+  methods:{
+    load(){
       this.request.get("/user/page",{
         params:{
           pageNum : this.pageNum,
@@ -132,14 +156,14 @@ export default {
         }
       }).then(res =>{
         console.log(res)
-        this.tableData = res.records;
-        this.total = res.total;
+        this.tableData = res.data.records;
+        this.total = res.data.total;
       })
       this.dialogFormVisible =false //BUG 用来改单击取消出现table数据改变的情况
     },
     save(){
       this.request.post("/user",this.form).then(res =>{
-        if (res){
+        if (res.data){
           this.$message.success("保存成功")
           this.dialogFormVisible=false
           this.load()
@@ -150,7 +174,7 @@ export default {
     },
     del(id){
       this.request.delete("/user/delete/"+id).then(res=>{
-        if (res){
+        if (res.data){
           this.$message.success("删除成功")
           this.dialogFormVisible=false
           this.load()
@@ -166,13 +190,20 @@ export default {
     batchDelete(){
       let ids = this.multipleSelection.map(v => v.id) //[{},{},{}]  =>[1,2,3]
       this.request.delete("/user/batchDelete",{data : ids}).then(res=>{
-        if (res){
+        if (res.data){
           this.$message.success("批量删除成功")
           this.load()
         }else {
           this.$message.error("批量删除失败")
         }
       })
+    },
+    importExcel(){
+      this.$message.success("文件导入成功")
+      this.load()
+    },
+    exportExcel(){
+      window.open("http://localhost:9999/user/export")
     },
     handleAdd(){
       this.dialogFormVisible =true;
@@ -207,5 +238,41 @@ export default {
 <style>
 .headerBg{
   background-color: #eee !important;
+}
+.el-button--primary {
+  background: #33b7fa !important;
+  border-color: #33b7fa !important;
+}
+.el-button--primary:hover {
+  background: #387dff !important;
+  border-color: #387dff !important;
+  color: #FFF !important;
+}
+.el-button--danger {
+  background: #f56c6c !important;
+  border-color: #f56c6c !important;
+}
+.el-button--danger:hover {
+  background: #ec0202 !important;
+  border-color: #ec0202 !important;
+  color: #FFF !important;
+}
+.el-button--warning {
+  background: #e6a23c !important;
+  border-color: #e6a23c !important;
+}
+.el-button--warning:hover {
+  background: #da8200 !important;
+  border-color: #da8200 !important;
+  color: #FFF !important;
+}
+.el-button--success {
+  background: #67c23a !important;
+  border-color: #67c23a !important;
+}
+.el-button--success:hover {
+  background: #0bff3d !important;
+  border-color: #0bff3d !important;
+  color: #FFF !important;
 }
 </style>

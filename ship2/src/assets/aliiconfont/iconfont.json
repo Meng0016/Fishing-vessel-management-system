@@ -1,0 +1,16 @@
+{
+  "id": "3840638",
+  "name": "ship",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "22611500",
+      "name": "船只",
+      "font_class": "chuanzhi",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    }
+  ]
+}

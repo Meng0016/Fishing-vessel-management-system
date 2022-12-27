@@ -1,5 +1,6 @@
 package com.mengship.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.server.HttpServerResponse;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
@@ -7,6 +8,9 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mengship.common.Constants;
+import com.mengship.common.Result;
+import com.mengship.controller.dto.UserDto;
 import com.mengship.entity.User;
 import com.mengship.service.IUserService;
 import com.mengship.service.impl.UserServiceImpl;
@@ -43,33 +47,62 @@ public class UserController {
     @Resource
     private IUserService userService;
 
+
+    @PostMapping("/login")
+    public Result login(@RequestBody UserDto userDto){
+        String username = userDto.getUsername();
+        String password = userDto.getPassword();
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)){  // 判断用户名和密码是否为空
+            return Result.error(Constants.CODE_400, "用户名或密码不能为空");
+        }
+        UserDto user = userService.login(userDto);
+        return Result.success(user);
+    }
+
+    @PostMapping("/register")
+    public Result register(@RequestBody UserDto userDto){
+        String username = userDto.getUsername();
+        String password = userDto.getPassword();
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)){  // 判断用户名和密码是否为空
+            return Result.error(Constants.CODE_400, "参数错误");
+        }
+        return Result.success(userService.register(userDto));
+    }
+
     @PostMapping
-    public Boolean save(@RequestBody User user) {
-        return userService.saveOrUpdate(user);
+    public Result save(@RequestBody User user) {
+        return Result.success(userService.saveOrUpdate(user));
     }
 
     @DeleteMapping("delete/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        return userService.removeById(id);
+    public Result delete(@PathVariable Integer id) {
+        return Result.success(userService.removeById(id));
     }
 
     @DeleteMapping("batchDelete")
-    public boolean deleteBatch(@RequestBody List<Integer> ids) {
-        return  userService.removeByIds(ids);
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
+        return Result.success(userService.removeByIds(ids));
     }
 
     @GetMapping
-    public List<User> findAll() {
-        return userService.list();
+    public Result findAll() {
+        return Result.success(userService.list());
     }
 
     @GetMapping("/{id}")
-    public List<User> findOne(@PathVariable Integer id) {
-        return userService.list();
+    public Result findOne(@PathVariable Integer id) {
+        return Result.success(userService.getById(id));
+    }
+
+    @GetMapping("/username/{username}")
+    public Result findOne(@PathVariable String username) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        return Result.success(userService.getOne(queryWrapper));
     }
 
     @GetMapping("/page")
-    public Page<User> findPage(@RequestParam Integer pageNum,
+    public Result findPage(@RequestParam Integer pageNum,
                                @RequestParam Integer pageSize,
                                @RequestParam(defaultValue = "") String username,
                                 @RequestParam(defaultValue = "") String realname) {
@@ -80,7 +113,7 @@ public class UserController {
         if (!"".equals(realname)){
             queryWrapper.like("realname",realname);
         }
-        return userService.page(new Page<>(pageNum, pageSize),queryWrapper);
+        return Result.success(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
     /**
      * @Description 导出
@@ -96,18 +129,18 @@ public class UserController {
 //        ExcelWriter writer = ExcelUtil.getWriter(filesUploadPath + "/用户信息.xlsx");
         // 在内存操作，写出到浏览器
         ExcelWriter writer = ExcelUtil.getWriter(true);
-        //自定义标题别名
-        writer.addHeaderAlias("username", "用户名");
-        writer.addHeaderAlias("password", "密码");
-        writer.addHeaderAlias("realname", "真实姓名");
-        writer.addHeaderAlias("email", "邮箱");
-        writer.addHeaderAlias("status", "使用状态");
-        writer.addHeaderAlias("access", "通过状态");
-        writer.addHeaderAlias("loginCount", "登录次数");
-        writer.addHeaderAlias("dateCreated", "创建日期");
-        writer.addHeaderAlias("smtp", "Smtp");
-        writer.addHeaderAlias("port", "港口");
-        writer.addHeaderAlias("phone", "电话");
+        //自定义标题别名  实体类注解Alias
+//        writer.addHeaderAlias("username", "用户名");
+//        writer.addHeaderAlias("password", "密码");
+//        writer.addHeaderAlias("realname", "真实姓名");
+//        writer.addHeaderAlias("email", "邮箱");
+//        writer.addHeaderAlias("status", "使用状态");
+//        writer.addHeaderAlias("access", "通过状态");
+//        writer.addHeaderAlias("loginCount", "登录次数");
+//        writer.addHeaderAlias("dateCreated", "创建日期");
+//        writer.addHeaderAlias("smtp", "Smtp");
+//        writer.addHeaderAlias("port", "港口");
+//        writer.addHeaderAlias("phone", "电话");
 
         // 一次性写出list内的对象到excel，使用默认样式，强制输出标题
         writer.write(list, true);
@@ -131,7 +164,7 @@ public class UserController {
      * @Date 2022/11/20 16:31
      */
     @PostMapping("/import")
-    public void importExcel(MultipartFile file) throws IOException {
+    public Result importExcel(MultipartFile file) throws IOException {
         InputStream inputStream =file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
 //        List<User> userList = reader.readAll(User.class);
@@ -139,7 +172,7 @@ public class UserController {
         List<User> userList = reader.read(0, 1, User.class);
         System.out.println(userList);
         userService.saveBatch(userList);
-
+        return Result.success(true);
     }
 }
 

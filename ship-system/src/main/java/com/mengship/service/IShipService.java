@@ -1,6 +1,6 @@
 package com.mengship.service;
 
-import com.mengship.entity.User;
+import com.mengship.entity.Ship;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author meng
- * @since 2022-11-18
+ * @since 2022-12-27
  */
-public interface IUserService extends IService<User> {
+public interface IShipService extends IService<Ship> {
 
 }

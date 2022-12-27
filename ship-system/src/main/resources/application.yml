@@ -10,7 +10,7 @@ spring:
     password: root
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
+      matching-strategy: ant_path_matcher  #配置路径匹配策略
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

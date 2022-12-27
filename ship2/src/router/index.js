@@ -13,15 +13,21 @@ const routes = [
     children:[
       {path:'home' , name: '首页', component :()=>import('@/views/Home.vue')},
       {path:'user' , name: '系统管理 / 用户管理',component :()=>import('@/views/User.vue')},
+      {path:'person' , name: '系统管理 / 个人信息',component :()=>import('@/views/Person.vue')},
+      {path:'ship',name:'系统管理 / 船舶信息',component:()=>import('@/views/Ship.vue')},
+      {path:'role',name:'系统管理 / 权限管理',component:()=>import('@/views/Role.vue')},
+      {path:'certificate',name:'系统管理 / 证书管理',component:()=>import('@/views/Certificate.vue')},
     ]
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/login',
+    name: 'Login',
+    component: ()=>import('@/views/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: ()=>import('@/views/Register.vue')
   }
 ]
 
