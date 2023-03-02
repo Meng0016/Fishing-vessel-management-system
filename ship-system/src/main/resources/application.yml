@@ -26,9 +26,9 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 cos:
-  baseUrl: https://meng-1314015467.cos.ap-shanghai.myqcloud.com
-  accessKey: AKIDpVw86oGVUDgusZ1EBsJUQ8ankRt51i9L
-  secretKey: ziCQP9fvvgCSSDixwgDUVGltnRqztXv4
+  baseUrl: ############################
+  accessKey: ###########################
+  secretKey: ##########################
   regionName: ap-shanghai
   bucketName: meng-1314015467
   folderPrefix: /files
