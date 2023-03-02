@@ -14,6 +14,7 @@ import com.mengship.controller.dto.UserDto;
 import com.mengship.entity.User;
 import com.mengship.service.IUserService;
 import com.mengship.service.impl.UserServiceImpl;
+import com.mengship.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -113,6 +114,10 @@ public class UserController {
         if (!"".equals(realname)){
             queryWrapper.like("realname",realname);
         }
+
+        // 获取用户信息
+        User currentUser = TokenUtils.getCurrentUser();
+        System.out.println("**************"+currentUser);
         return Result.success(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
     /**
@@ -141,15 +146,12 @@ public class UserController {
 //        writer.addHeaderAlias("smtp", "Smtp");
 //        writer.addHeaderAlias("port", "港口");
 //        writer.addHeaderAlias("phone", "电话");
-
         // 一次性写出list内的对象到excel，使用默认样式，强制输出标题
         writer.write(list, true);
-
         // 设置浏览器响应的格式
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         String fileName = URLEncoder.encode("用户信息", "UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
-
         ServletOutputStream out = response.getOutputStream();
         writer.flush(out, true);
         out.close();

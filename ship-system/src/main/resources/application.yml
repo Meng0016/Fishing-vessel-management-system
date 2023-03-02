@@ -11,6 +11,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher  #配置路径匹配策略
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -21,3 +25,11 @@ mybatis-plus:
       logic-delete-field: isDelete
       logic-delete-value: 1
       logic-not-delete-value: 0
+cos:
+  baseUrl: https://meng-1314015467.cos.ap-shanghai.myqcloud.com
+  accessKey: AKIDpVw86oGVUDgusZ1EBsJUQ8ankRt51i9L
+  secretKey: ziCQP9fvvgCSSDixwgDUVGltnRqztXv4
+  regionName: ap-shanghai
+  bucketName: meng-1314015467
+  folderPrefix: /files
+  avatarFolder: /avatar

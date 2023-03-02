@@ -211,7 +211,9 @@ export default {
     },
     handleEdit(row){
       this.form = row;
+      console.log(row)
       this.dialogFormVisible =true;
+
     },
     reset(){
       this.username = "";
@@ -240,7 +242,7 @@ export default {
   background-color: #eee !important;
 }
 .el-button--primary {
-  background: #33b7fa !important;
+  background: rgba(51, 183, 250, 0.83) !important;
   border-color: #33b7fa !important;
 }
 .el-button--primary:hover {

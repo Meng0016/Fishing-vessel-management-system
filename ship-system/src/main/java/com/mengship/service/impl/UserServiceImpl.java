@@ -9,6 +9,7 @@ import com.mengship.exception.ServiceException;
 import com.mengship.mapper.UserMapper;
 import com.mengship.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mengship.utils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
        User user = getUserInfo(userDto);
         if (user != null) {
             BeanUtil.copyProperties(user, userDto);  // 将查询到的用户信息复制到userDto中
+            String token =TokenUtils.getToken(user.getId().toString(),user.getPassword());  // 生成token
+            userDto.setToken(token);
             return userDto;
         } else {
             throw new  ServiceException(Constants.CODE_600, "用户名或密码错误");

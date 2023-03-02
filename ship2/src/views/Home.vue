@@ -1,12 +1,100 @@
 <template>
 <div>
-  <H1>主页</H1>
+  <el-row>
+    <el-col :span="12">
+      <div id="main" style="width: 500px;height: 500px"></div>
+    </el-col>
+    <el-col :span="12">
+      <div id="pie" style="width: 700px;height: 500px"></div>
+    </el-col>
+  </el-row>
+
 </div>
 </template>
 
 <script>
+import * as echarts from 'echarts'
 export default {
-  name: "Home"
+  name: "Home",
+  data(){
+    return{
+
+    }
+  },
+  methods:{},
+  mounted() {
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option = {
+      xAxis: {
+        type: 'category',
+        data: []
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [],
+          type: 'line'
+        },
+        {
+          data: [],
+          type: 'bar'
+        },
+      ]
+    };
+
+    this.request.get("/echarts/example").then(res=>{
+
+      option.xAxis.data= res.data.x;
+      option.series[0].data = res.data.y;
+      option.series[1].data = res.data.y;
+      myChart.setOption(option);
+    })
+
+    //饼状图
+    var piechartDom = document.getElementById('pie');
+    var piemyChart = echarts.init(piechartDom);
+    var pieoption = {
+      legend: {
+        top: 'bottom'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          restore: { show: true },
+          saveAsImage: { show: true }
+        }
+      },
+      series: [
+        {
+          name: 'Nightingale Chart',
+          type: 'pie',
+          radius: [50, 250],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 8
+          },
+          data: [
+            { value: 40, name: 'rose 1' },
+            { value: 38, name: 'rose 2' },
+            { value: 32, name: 'rose 3' },
+            { value: 30, name: 'rose 4' },
+            { value: 28, name: 'rose 5' },
+            { value: 26, name: 'rose 6' },
+            { value: 22, name: 'rose 7' },
+            { value: 18, name: 'rose 8' }
+          ]
+        }
+      ]
+    };
+    piemyChart.setOption(pieoption)
+
+  },
 }
 </script>
 

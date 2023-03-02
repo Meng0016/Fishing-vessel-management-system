@@ -22,4 +22,7 @@ public class UserDto {
 
     @Alias("头像")
     private String avatar;
+
+    @Alias("令牌")
+    private String token;
 }

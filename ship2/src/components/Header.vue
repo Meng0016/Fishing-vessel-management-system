@@ -33,11 +33,13 @@ export default {
   name: "Header",
   props:{
     collapseBtnClass : String,
-    collapse : Function
+    collapse : Function,
+    user : Object
+
   },
   data(){
     return{
-      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+      // user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
   watch: {

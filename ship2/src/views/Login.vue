@@ -4,10 +4,10 @@
   <div style="margin: 20px 0; text-align: center; font-size: 24px"><b>登 录</b></div>
     <el-form :model="user" :rules="rules" ref="userForm">
       <el-form-item prop="username">
-        <el-input placeholder="请输入账号"  size="medium" style="margin: 10px 0" prefix-icon="el-icon-user" v-model="user.username"></el-input>
+        <el-input placeholder="请输入账号"  size="medium" style="margin: 10px 0" prefix-icon="el-icon-user" v-model="user.username" ></el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input placeholder="请输入密码" size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
+        <el-input placeholder="请输入密码" size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.password" ></el-input>
       </el-form-item>
       <el-form-item style="margin: 10px 0; text-align: right">
         <el-button type="primary" size="small"  autocomplete="off" @click="login">登录</el-button>
@@ -27,10 +27,12 @@ export default {
       rules:{
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
+          {pattern: /^(?!\s+).*(?<!\s)$/,  message: '不能输入空格', trigger: 'blur'},  //同上 :onkeyup="input= input.replace(/[ ]/g,'')"  不可输入空格
           { min: 4, max: 10, message: '长度在 4 到 10 个字符', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
+          {pattern: /^(?!\s+).*(?<!\s)$/,  message: '不能输入空格', trigger: 'blur'},
           { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
         ]
       }

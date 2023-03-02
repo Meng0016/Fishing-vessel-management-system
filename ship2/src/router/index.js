@@ -5,6 +5,13 @@ import Manage from '../views/Manage.vue'
 
 Vue.use(VueRouter)
 
+//解决vue路由重复导航错误
+//获取原型对象上的push函数
+const originalPush = VueRouter.prototype.push
+//修改原型对象中的push方法
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 const routes = [
   {
     path: '/',
@@ -17,6 +24,7 @@ const routes = [
       {path:'ship',name:'系统管理 / 船舶信息',component:()=>import('@/views/Ship.vue')},
       {path:'role',name:'系统管理 / 权限管理',component:()=>import('@/views/Role.vue')},
       {path:'certificate',name:'系统管理 / 证书管理',component:()=>import('@/views/Certificate.vue')},
+      {path: 'fileupload',name: '系统管理 / 文件管理',component:()=>import('@/views/FileUP.vue')}
     ]
   },
   {
