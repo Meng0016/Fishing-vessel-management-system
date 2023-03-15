@@ -98,4 +98,8 @@ public class User implements Serializable {
     @Alias("头像")
     @ApiModelProperty("头像")
     private String avatar;
+
+    @Alias("角色")
+    @ApiModelProperty("角色")
+    private String role;
 }

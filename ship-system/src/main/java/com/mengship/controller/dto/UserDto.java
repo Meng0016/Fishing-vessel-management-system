@@ -1,7 +1,10 @@
 package com.mengship.controller.dto;
 
 import cn.hutool.core.annotation.Alias;
+import com.mengship.entity.Menu;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Description 接收前端登录请求数据
@@ -25,4 +28,10 @@ public class UserDto {
 
     @Alias("令牌")
     private String token;
+
+    @Alias("角色")
+    private String role;
+
+    @Alias("菜单")
+    private List<Menu> menus;
 }

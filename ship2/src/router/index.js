@@ -23,6 +23,7 @@ const routes = [
       {path:'person' , name: '系统管理 / 个人信息',component :()=>import('@/views/Person.vue')},
       {path:'ship',name:'系统管理 / 船舶信息',component:()=>import('@/views/Ship.vue')},
       {path:'role',name:'系统管理 / 权限管理',component:()=>import('@/views/Role.vue')},
+      {path:'menu',name:'系统管理 / 菜单管理',component:()=>import('@/views/Menu.vue')},
       {path:'certificate',name:'系统管理 / 证书管理',component:()=>import('@/views/Certificate.vue')},
       {path: 'fileupload',name: '系统管理 / 文件管理',component:()=>import('@/views/FileUP.vue')}
     ]

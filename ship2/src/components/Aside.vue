@@ -24,6 +24,7 @@
       <el-menu-item index="user" style="height: 60px"><i class="el-icon-user-solid"></i>用户管理</el-menu-item>
       <el-menu-item index="ship" style="height: 60px">&nbsp;<i class="iconfont icon-chuanzhi"></i>&nbsp;&nbsp;船只管理</el-menu-item>
       <el-menu-item index="role" style="height: 60px"><i class="el-icon-lock"></i>权限管理</el-menu-item>
+      <el-menu-item index="menu" style="height: 60px"><i class="el-icon-menu"></i>菜单管理</el-menu-item>
       <el-menu-item index="certificate" style="height: 60px"><i class="el-icon-document-checked"></i>证书管理</el-menu-item>
       <el-menu-item index="fileupload" style="height: 60px"><i class="el-icon-folder-opened"></i>文件管理</el-menu-item>
 <!--    </el-submenu>-->

@@ -23,6 +23,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/login","/user/register","/**/export","/file/**"); // 拦截所有请求，通过判断token 决定是否需要登录
+                .excludePathPatterns("/user/login","/user/register","/**/export","/file/**","/role/**"); // 拦截所有请求，通过判断token 决定是否需要登录
     }
 }

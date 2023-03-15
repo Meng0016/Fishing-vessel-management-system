@@ -38,6 +38,7 @@
     <el-table-column prop="username" label="用户" width="90" ></el-table-column>
     <el-table-column prop="realname" label="真实姓名" width="90"></el-table-column>
     <el-table-column prop="phone" label="电话" width="115" ></el-table-column>
+    <el-table-column prop="role" label="角色" width="115" ></el-table-column>
     <el-table-column prop="email" label="邮箱" width="170"></el-table-column>
     <el-table-column  prop="status" label="使用状态" width="80">
 <!--      <el-switch-->
@@ -88,6 +89,12 @@
     <el-form label-width="70px">
       <el-form-item label="用户名" >
         <el-input v-model="form.username" autocomplete="off"  ></el-input>
+      </el-form-item>
+      <el-form-item label="角色" >
+        <el-select clearable v-model="form.role" placeholder="请选择角色" style="width: 80%">
+          <el-option v-for="item in roles" :key="item.name" :label="item.name" :value="item.flag">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="真实姓名" >
         <el-input v-model="form.realname" autocomplete="off"></el-input>
@@ -143,6 +150,7 @@ export default {
       dialogFormVisible: false,
       multipleSelection:[],
       form: {},
+      roles:[],
     }
   },
   methods:{
@@ -155,15 +163,22 @@ export default {
           realname : this.realname,
         }
       }).then(res =>{
-        console.log(res)
+        // console.log(res)
         this.tableData = res.data.records;
         this.total = res.data.total;
+      })
+
+
+
+      this.request.get("/role").then(res =>{
+          this.roles =res.data
+          // console.log("------------------"+res)
       })
       this.dialogFormVisible =false //BUG 用来改单击取消出现table数据改变的情况
     },
     save(){
       this.request.post("/user",this.form).then(res =>{
-        if (res.data){
+        if (res.code === '200'){
           this.$message.success("保存成功")
           this.dialogFormVisible=false
           this.load()
@@ -174,7 +189,7 @@ export default {
     },
     del(id){
       this.request.delete("/user/delete/"+id).then(res=>{
-        if (res.data){
+        if (res.code === '200'){
           this.$message.success("删除成功")
           this.dialogFormVisible=false
           this.load()
@@ -190,7 +205,7 @@ export default {
     batchDelete(){
       let ids = this.multipleSelection.map(v => v.id) //[{},{},{}]  =>[1,2,3]
       this.request.delete("/user/batchDelete",{data : ids}).then(res=>{
-        if (res.data){
+        if (res.code === '200'){
           this.$message.success("批量删除成功")
           this.load()
         }else {

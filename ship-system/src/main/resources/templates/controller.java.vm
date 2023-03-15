@@ -46,31 +46,31 @@ public class ${table.controllerName} {
     private ${table.serviceName} ${table.entityPath}Service;
 
     @PostMapping
-    public Boolean save(@RequestBody ${entity} ${table.entityPath}) {
-        return ${table.entityPath}Service.saveOrUpdate(${table.entityPath});
+    public Result save(@RequestBody ${entity} ${table.entityPath}) {
+        return Result.success(${table.entityPath}Service.saveOrUpdate(${table.entityPath}));
     }
-    @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        return ${table.entityPath}Service.removeById(id);
+    @DeleteMapping("delete/{id}")
+    public Result delete(@PathVariable Integer id) {
+        return Result.success(${table.entityPath}Service.removeById(id));
     }
     @DeleteMapping("batchDelete")
-    public boolean deleteBatch(@RequestBody List<Integer> ids) {
-        return  ${table.entityPath}Service.removeByIds(ids);
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
+        return  Result.success(${table.entityPath}Service.removeByIds(ids));
     }
     @GetMapping
-    public List<${entity}> findAll() {
-        return ${table.entityPath}Service.list();
+    public Result findAll() {
+        return Result.success(${table.entityPath}Service.list());
     }
     @GetMapping("/{id}")
-    public List<${entity}> findOne(@PathVariable Integer id) {
-        return ${table.entityPath}Service.list();
+    public Result findOne(@PathVariable Integer id) {
+        return Result.success(${table.entityPath}Service.list());
     }
     @GetMapping("/page")
-    public Page<${entity}> findPage(@RequestParam Integer pageNum,
+    public Result findPage(@RequestParam Integer pageNum,
                                     @RequestParam Integer pageSize) {
         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
-        return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize),queryWrapper);
+        return Result.success(${table.entityPath}Service.page(new Page<>(pageNum, pageSize),queryWrapper));
     }
 }
 
